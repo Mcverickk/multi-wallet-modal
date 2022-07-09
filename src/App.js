@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import Modal from './Modal/Modal.js';
 import './Modal/Modal.css';
 
+
 function App() {
 
   const [walletConnected, setWalletConnected] = useState(false);
@@ -11,6 +12,8 @@ function App() {
   const [providerContract, setProviderContract] = useState({})
   const [signerContract, setSignerContract] = useState({})
   const [showModal, setShowModal] = useState(false)
+  const extension = '.png';
+  const imageBaseURI = 'https://cf-ipfs.com/ipfs/QmVF8EdJ8PxZgP6fRCfBJ6Ebei3s9CP6cstZJg7ahMRxBg/';
 
   async function ConnectMetaMask() {
     let prov;
@@ -78,13 +81,37 @@ function App() {
 
   }
 
+  const GetImageURL = async (prop) => {
+    const image = imageBaseURI + prop + extension;
+    console.log(image)
+  }
+
+  const Mint = async () => {
+    const id = await providerContract.totalSupply();
+    const tx = await signerContract.mintNFTs(1);
+    console.log(tx);
+  }
+
+  const ShowImage = async (prop) => {
+    const path = "../public/images/" + prop + extension;
+    return (
+      <div>
+        <img src={path} alt="NFT" />
+      </div>
+    )
+  }
+
+
 
   return (
     <>
       <ModalWalletConnect />
+      <button onClick={Mint}>Mint</button>
     </>
+
   )
 }
+//{/*  */}
 
 
 
